@@ -1,0 +1,96 @@
+<div class="wrapper">
+  <h5 class="firago-500">ლისტინგის დამატება</h5>
+  <form [formGroup]="listingForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label>გარიგების ტიპი</label>
+      <div class="radio-wrapper">
+        <label class="radio-label">
+          <input type="radio" formControlName="is_rental" value="0" />
+          იყიდება
+          <span class="custom-radio"></span>
+        </label>
+        <label class="radio-label">
+          <input type="radio" formControlName="is_rental" value="1" />
+          ქირავდება
+          <span class="custom-radio"></span>
+        </label>
+      </div>
+    </div>
+    <div class="location">
+      <h5 class="firago-500">მდებარეობა</h5>
+      <div>
+        <div class="form-group">
+          <label for="address">მისამართი *</label>
+          <input type="text" formControlName="address" id="address" />
+        </div>
+        <div class="form-group">
+          <label for="zip_code">საფოსტო ინდექსი *</label>
+          <input type="text" formControlName="zip_code" id="zip_code" />
+        </div>
+      </div>
+      <div>
+        <div class="form-group">
+          <label for="region">რეგიონი</label>
+          <select id="region" (change)="onRegionChange($event)">
+            @for (region of regions; track region){
+            <option [value]="region.id" >{{ region.name }}</option>
+            }
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="city">ქალაქი</label>
+          <select id="city" (change)="getCityId($event)">
+            @for (city of filteredCities; track city){
+            <option [value]="city.id">{{ city.name }}</option>
+            }
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="apartment-details">
+      <h5 class="firago-500">ბინის დეტალები</h5>
+      <div>
+        <div class="form-group">
+          <label for="price">ფასი</label>
+          <input type="text" formControlName="price" id="price" />
+        </div>
+        <div class="form-group">
+          <label for="area">ფართობი</label>
+          <input type="text" formControlName="zip_code" id="area" />
+        </div>
+      </div>
+      <div>
+        <div class="form-group">
+          <label for="bedrooms">საძინებლების რაოდენობა *</label>
+          <input type="number" id="bedrooms" formControlName="bedrooms">
+        </div>
+      </div>
+      <div class="form-group description">
+        <label for="description">აღწერა</label>
+        <textarea formControlName="description" id="description"></textarea>
+      </div>
+      <div class="form-group photo">
+        <label style="width: 100%">ატვირთეთ ფოტო *</label>
+        <label for="photo" class="custom-file-label">
+          <input type="file" formControlName="image" id="photo" class="custom-file-input">
+          <span class="plus-sign">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#2D3648" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12 8V16" stroke="#2D3648" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M8 12H16" stroke="#2D3648" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </label>
+      </div>
+    </div>
+    <div class="agent">
+      <h5 class="firago-500">აგენტი</h5>
+      <div class="form-group">
+        <label for="agent">აირჩიე</label>
+        <select id="agent" >
+          <option >gela</option>
+        </select>
+      </div>
+    </div>
+  </form>
+</div>

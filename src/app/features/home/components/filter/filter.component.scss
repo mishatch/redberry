@@ -1,0 +1,92 @@
+@import "../../../../../variables";
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  >div:first-of-type {
+    >div {
+      width: 100%;
+      &:first-of-type {
+        border: 1px solid $border-color;
+        border-radius: 10px;
+        padding: 6px;
+        display: flex;
+        gap: 24px;
+        margin-bottom: 16px;
+      }
+    }
+    button {
+      transition: .3s;
+      font-size: 16px;
+      border: none;
+      background-color: transparent;
+      color: $primary-black;
+      &.show {
+        background-color: $dropdown-clicked;
+      }
+    }
+    .dropdown-menu  {
+      inset: 10px auto auto 0 !important;
+      border-radius: 10px;
+      border: 1px solid $border-color;
+      &.region-dropdown {
+        width: 731px;
+        height: 284px;
+      }
+      &.price-dropdown {
+        width: 382px;
+        height: 372px;
+      }
+      &.area-dropdown {
+        width: 382px;
+        height: 382px;
+      }
+      &.bedrooms-dropdown {
+        width: 282px;
+        height: 198px;
+      }
+    }
+  }
+  >div:last-of-type {
+    display: flex;
+    gap: 16px;
+    justify-content: flex-end;
+    a {
+      border-radius: 10px;
+      padding: 12.5px 16px;
+      border: none;
+      height: 47px;
+      text-decoration: none;
+      &:first-of-type {
+        background-color: $primary-red;
+        color: #fff;
+        transition: 0.3s;
+        &:hover {
+          background-color: $btn-hover;
+        }
+        >svg {
+          >path {
+            fill: #fff;
+          }
+        }
+      }
+      &:last-of-type {
+        border: 1px solid $primary-red;
+        background-color: transparent;
+        color: $primary-red;
+        transition: 0.3s;
+        path {
+          transition: .3s;
+        }
+        &:hover {
+          background-color: $primary-red;
+          color: #fff;
+          path {
+            fill: #fff;
+          }
+        }
+      }
+    }
+  }
+}

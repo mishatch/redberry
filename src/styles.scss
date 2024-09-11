@@ -1,1 +1,74 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'bootstrap/scss/bootstrap';
+@import '@fontsource/firago';
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'FiraGO-400', sans-serif;
+}
+
+//Font
+@font-face {
+  font-family: FiraGO-100;
+  src: url(assets/fonts/firago-latin-100-normal.ttf);
+}
+@font-face {
+  font-family: FiraGO-200;
+  src: url(assets/fonts/firago-latin-200-normal.ttf);
+}
+@font-face {
+  font-family: FiraGO-300;
+  src: url(assets/fonts/firago-latin-300-normal.ttf);
+}
+@font-face {
+  font-family: FiraGO-400;
+  src: url(assets/fonts/firago-latin-400-normal.ttf);
+}
+@font-face {
+  font-family: FiraGO-500;
+  src: url(assets/fonts/firago-latin-500-normal.ttf);
+}
+@font-face {
+  font-family: FiraGO-600;
+  src: url(assets/fonts/firago-latin-600-normal.ttf);
+}
+@font-face {
+  font-family: FiraGO-700;
+  src: url(assets/fonts/firago-latin-700-normal.ttf);
+}
+@font-face {
+  font-family: FiraGO-800;
+  src: url(assets/fonts/firago-latin-800-normal.ttf);
+}
+@font-face {
+  font-family: FiraGO-900;
+  src: url(assets/fonts/firago-latin-900-normal.ttf);
+}
+
+.firago-100 {
+  font-family: 'FiraGO-100', sans-serif;
+}
+.firago-200 {
+  font-family: 'FiraGO-200', sans-serif;
+}
+.firago-300 {
+  font-family: 'FiraGO-300', sans-serif;
+}
+.firago-400 {
+  font-family: 'FiraGO-400', sans-serif;
+}
+.firago-500 {
+  font-family: 'FiraGO-500', sans-serif;
+}
+.firago-600 {
+  font-family: 'FiraGO-600', sans-serif;
+}
+.firago-700 {
+  font-family: 'FiraGO-700', sans-serif;
+}
+.firago-800 {
+  font-family: 'FiraGO-800', sans-serif;
+}
+.firago-900 {
+  font-family: 'FiraGO-900', sans-serif;
+}
