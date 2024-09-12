@@ -52,7 +52,7 @@
     display: flex;
     gap: 16px;
     justify-content: flex-end;
-    a {
+    a{
       border-radius: 10px;
       padding: 12.5px 16px;
       border: none;
@@ -71,20 +71,24 @@
           }
         }
       }
-      &:last-of-type {
-        border: 1px solid $primary-red;
-        background-color: transparent;
-        color: $primary-red;
-        transition: 0.3s;
+    }
+    button {
+      border: 1px solid $primary-red;
+      background-color: transparent;
+      color: $primary-red;
+      transition: 0.3s;
+      border-radius: 10px;
+      padding: 12.5px 16px;
+      height: 47px;
+      text-decoration: none;
+      path {
+        transition: .3s;
+      }
+      &:hover {
+        background-color: $primary-red;
+        color: #fff;
         path {
-          transition: .3s;
-        }
-        &:hover {
-          background-color: $primary-red;
-          color: #fff;
-          path {
-            fill: #fff;
-          }
+          fill: #fff;
         }
       }
     }

@@ -1,0 +1,93 @@
+<ng-template #agentModalTemplate let-modal>
+  <div class="modal-wrapper">
+    <div>
+      <h4 class="firago-500">აგენტის დამატება</h4>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="agentForm" >
+        <div>
+          <div class="form-group">
+            <label for="name">სახელი *</label>
+            <input type="text" class="form-control" formControlName="name" id="name">
+            <small [class.is-valid]="!name?.errors" [class.is-invalid]="(name?.touched || name?.dirty) && name?.errors" >
+              <svg width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11 1.40918L4.125 9.591L1 5.87199" stroke="#021526" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+
+              მინიმუმ ორი სიმბოლო
+            </small>
+          </div>
+          <div class="form-group">
+            <label for="surname">გვარი</label>
+            <input type="text" class="form-control" formControlName="surname" id="surname">
+            <small [class.is-valid]="!surname?.errors" [class.is-invalid]="(surname?.touched || surname?.dirty) && surname?.errors" >
+              <svg width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11 1.40918L4.125 9.591L1 5.87199" stroke="#021526" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              მინიმუმ ორი სიმბოლო
+            </small>
+          </div>
+        </div>
+        <div>
+          <div class="form-group">
+            <label for="email">ელ. ფოსტა *</label>
+            <input type="email" class="form-control" formControlName="email" id="email">
+            <small [class.is-valid]="!email?.errors" [class.is-invalid]="(email?.touched || email?.dirty) && email?.errors">
+              <svg width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11 1.40918L4.125 9.591L1 5.87199" stroke="#021526" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+
+              გამოიყენეთ &#64;redberry.ge ელ. ფოსტა
+            </small>
+          </div>
+          <div class="form-group">
+            <label for="phone">ტელეფონი</label>
+            <input type="text" class="form-control" formControlName="phone" id="phone">
+            <small [class.is-valid]="!phone?.errors" [class.is-invalid]="(phone?.touched || phone?.dirty) && phone?.errors">
+              <svg width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11 1.40918L4.125 9.591L1 5.87199" stroke="#021526" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+
+              @if ((phone?.errors?.['required'] || phone?.errors?.['nonNumericText']) || phone?.valid){
+                მხოლოდ რიცხვები
+              } @else if ((!phone?.errors?.['nonNumericText'] && phone?.errors?.['phoneNumberInvalid'])) {
+                გთხოვთ შეიყვანოთ სწორი ნომერი
+              }
+            </small>
+          </div>
+        </div>
+        <div class="form-group photo">
+          <label style="width: 100%">ატვირთეთ ფოტო *</label>
+          <label for="photo" class="custom-file-label">
+            <input type="file" id="photo" class="custom-file-input" (change)="onFileSelected($event)" #fileInput>
+            <span class="plus-sign">
+              @if(!imagePreview) {
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#2D3648" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 8V16" stroke="#2D3648" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M8 12H16" stroke="#2D3648" stroke-linecap="round" stroke-linejoin="round"/>
+                 </svg>
+              }
+          </span>
+          </label>
+          @if (imagePreview){
+            <div>
+              <img [src]="imagePreview" alt="Image preview" class="img-preview">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="bin" (click)="deleteImage()">
+                <circle cx="12" cy="12" r="11.5" fill="white" stroke="#021526"/>
+                <path d="M6.75 8.5H7.91667H17.25" stroke="#021526" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16.0834 8.50033V16.667C16.0834 16.9764 15.9605 17.2732 15.7417 17.492C15.5229 17.7107 15.2262 17.8337 14.9167 17.8337H9.08341C8.774 17.8337 8.47725 17.7107 8.25846 17.492C8.03966 17.2732 7.91675 16.9764 7.91675 16.667V8.50033M9.66675 8.50033V7.33366C9.66675 7.02424 9.78966 6.72749 10.0085 6.5087C10.2272 6.28991 10.524 6.16699 10.8334 6.16699H13.1667C13.4762 6.16699 13.7729 6.28991 13.9917 6.5087C14.2105 6.72749 14.3334 7.02424 14.3334 7.33366V8.50033" stroke="#021526" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10.8333 11.417V14.917" stroke="#021526" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M13.1667 11.417V14.917" stroke="#021526" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          }
+        </div>
+      </form>
+    </div>
+    <div class="footer">
+      <button type="button" (click)="onCancel()">გაუქმება</button>
+      <button type="button" (click)="onSubmit()" [disabled]="agentForm.invalid" [class.is-disabled]="agentForm.invalid || !selectedFile" >დაამატე აგენტი</button>
+    </div>
+  </div>
+</ng-template>
