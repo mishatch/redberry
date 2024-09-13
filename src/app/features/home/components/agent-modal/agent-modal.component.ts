@@ -3,8 +3,8 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { emailDomainValidator } from "../../../../shared/validators/email-domain.validator";
 import { phoneNumberValidator } from "../../../../shared/validators/phone-number.validator";
-import { AgentService } from "../../services/agent.service";
 import {catchError, Observable, of} from "rxjs";
+import {AgentService} from "../../../../shared/services/agent.service";
 
 @Component({
   selector: 'app-agent-modal',

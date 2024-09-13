@@ -16,6 +16,24 @@
     width: 790px;
     display: flex;
     flex-direction: column;
+    small {
+      &.is-valid {
+        color: $primary-green;
+        svg {
+          path {
+            stroke: $primary-green;
+          }
+        }
+      }
+      &.is-invalid {
+        color: $primary-red;
+        svg {
+          path {
+            stroke: $primary-red;
+          }
+        }
+      }
+    }
     >.location, >.apartment-details {
        margin-top: 80px;
       >h5 {
@@ -78,6 +96,26 @@
 
             .custom-file-label:hover .plus-sign {
               color: #333;
+            }
+          }
+          .photo-prev {
+            width: auto;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 29px;
+            img {
+              width: 92px;
+              height: 82px;
+              object-fit: cover;
+              border-radius: 4px;
+            }
+            .bin {
+              display: block;
+              position: absolute;
+              bottom: -6px;
+              right: -10px;
+              z-index: 900;
             }
           }
         }

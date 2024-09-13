@@ -1,0 +1,50 @@
+@import "../../../../../variables";
+
+.wrapper {
+  margin-top: 32px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  >.estate-card {
+    width: 384px;
+    height: 455px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid $border-color;
+    >.estate-image {
+      width: 100%;
+      height: 307px;
+      >img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+    >.estate-description {
+      padding: 22px 25px;
+      >h5 {
+        color: $primary-black;
+        font-size: 28px;
+      }
+      >p {
+        margin-top: 6.5px;
+        margin-bottom: 18px;
+        font-size: 16px;
+        color: $primary-black;
+        opacity: .7;
+      }
+      >.card-footer-icons {
+        display: flex;
+        gap: 32px;
+        >div {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          font-size: 16px;
+          color: $primary-black;
+          opacity: .7;
+        }
+      }
+    }
+  }
+}
