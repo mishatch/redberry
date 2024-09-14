@@ -24,6 +24,6 @@ export class ApartmentsComponent {
     );
   }
   viewEstateDetails(estate: any) {
-    this.router.navigate(['/real-estate', estate.id], { state: { estate } });
+    this.router.navigate(['/real-estate', estate.id]); // Pass the estate ID to the route
   }
 }

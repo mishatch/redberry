@@ -2,6 +2,15 @@
   @for(estate of realEstates; track estate){
     <div class="estate-card" (click)="viewEstateDetails(estate)">
       <div class="estate-image">
+        <div>
+          <p>
+            @if (estate.is_rental){
+              ქირავდება
+            } @else {
+              იყიდება
+            }
+          </p>
+        </div>
         <img [src]="estate.image" alt="Real Estate">
       </div>
       <div class="estate-description">

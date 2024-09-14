@@ -17,4 +17,18 @@ export class RealEstateService {
 
     return this.http.get(`${this.apiUrl}/real-estates`, {headers});
   }
+  getEstateById(id: any) {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`
+    });
+
+    return this.http.get(`${this.apiUrl}/real-estates/${id}`, {headers});
+  }
+  deleteEstate(id: any) {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`
+    });
+
+    return this.http.delete(`${this.apiUrl}/real-estates/${id}`, {headers});
+  }
 }
