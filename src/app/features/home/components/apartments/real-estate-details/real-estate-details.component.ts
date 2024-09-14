@@ -1,9 +1,12 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
-import { CommonModule } from "@angular/common";
+import {CommonModule, NgFor} from "@angular/common";
 import { FormatPricePipe } from "./format-price.pipe";
 import { RealEstateService } from "../../../services/real-estate.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import {Estate} from "../../../../../shared/models/estate.model";
+import {LoadingComponent} from "../../../../../shared/components/loading/loading.component";
+import {Subscription} from "rxjs";
 
 let nextId: number = 0;
 
@@ -14,22 +17,27 @@ let nextId: number = 0;
     RouterLink,
     CommonModule,
     FormatPricePipe,
+    NgFor,
+    LoadingComponent
   ],
   templateUrl: './real-estate-details.component.html',
   styleUrls: ['./real-estate-details.component.scss']
 })
-export class RealEstateDetailsComponent implements OnInit {
-  estate: any;
-  similarEstates: any[] = [];
-  isLoading: boolean = true;
+export class RealEstateDetailsComponent implements OnInit, OnDestroy {
+
+  public estate!: Estate;
+  public similarEstates: Estate[] = [];
+  public isLoading: boolean = true;
   public componentId: string | undefined = `carousel-id-${nextId++}`;
   public currentPage: number = 0;
-  public itemMap: Map<number, any[]> | undefined;
+  public itemMap: Map<number, Estate[]> | undefined;
   public itemKeys: number[] | undefined;
   public pageSize: number = 4;
   public numberOfPages: number = 0;
   public isNextDisabled: boolean = true;
   public isPrevDisabled: boolean = true;
+
+  private subscription!: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -42,11 +50,15 @@ export class RealEstateDetailsComponent implements OnInit {
     this.getEstate();
   }
 
-  openDeleteModal(content: TemplateRef<any>) {
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  public openDeleteModal(content: TemplateRef<any>) {
     this.modalService.open(content, { centered: true });
   }
 
-  deleteEstate(id: any) {
+  public deleteEstate(id: number) {
     this.estateService.deleteEstate(id).subscribe(
       () => {
         this.modalService.dismissAll();
@@ -70,6 +82,12 @@ export class RealEstateDetailsComponent implements OnInit {
   public navToPrev(): void {
     this.currentPage = this.currentPage - 1;
     this.navigateToGroup(this.currentPage);
+  }
+
+  public viewEstateDetails(estate: Estate) {
+    this.isLoading = true;
+    this.router.navigate(['/real-estate', estate.id]);
+    this.getEstate(estate.id);
   }
 
   private navigateToGroup(groupId: number): void {
@@ -111,36 +129,31 @@ export class RealEstateDetailsComponent implements OnInit {
     this.isPrevDisabled = this.currentPage <= 0;
   }
 
-  private getEstate(similarId?: any): void {
+  private getEstate(similarId?: number): void {
     const id = similarId ? similarId : this.route.snapshot.paramMap.get('id');
-    this.estateService.getEstateById(id).subscribe(
-      (data) => {
+    this.subscription =  this.estateService.getEstateById(id).subscribe(
+      (data: any) => {
         this.estate = data;
         this.getSimilarEstates();
       },
       (error) => {
-        console.error(error);
+        this.isLoading = false;
       }
     );
   }
 
   private getSimilarEstates(): void {
-    this.estateService.getEstates().subscribe(
+    this.subscription = this.estateService.getEstates().subscribe(
       (data: any) => {
-        this.similarEstates = data.filter((estate: any) => estate.city_id === this.estate?.city_id);
+        this.similarEstates = data.filter((estate: Estate) => estate.city_id === this.estate?.city_id && estate.id !== this.estate?.id);
         this.createSliderGroups();
         this.numberOfPages = Math.ceil(this.similarEstates.length / this.pageSize);
         this.calcButtonStates();
         this.isLoading = false;
       },
       (error) => {
-        console.error(error);
+        this.isLoading = false;
       }
     );
-  }
-  viewEstateDetails(estate: any) {
-    this.isLoading = true;
-    this.router.navigate(['/real-estate', estate.id]);
-    this.getEstate(estate.id);
   }
 }

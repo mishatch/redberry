@@ -6,6 +6,7 @@
   flex-direction: column;
   >svg {
     margin-bottom: 30px;
+    cursor: pointer;
   }
   >.estate-information {
     display: flex;
@@ -183,6 +184,16 @@
   }
 }
 
+.similar-location {
+  font-size: 32px;
+  color: $primary-black;
+  margin-bottom: 52px;
+  margin-left: 162px;
+}
+.no-estates{
+  margin-left: 162px;
+  margin-bottom: 52px;
+}
 .carousel {
   position: relative;
   width: 1596px;
@@ -216,6 +227,7 @@
     }
     >.estate-card {
       position: relative;
+      cursor: pointer;
       >.estate-image {
         >div:first-of-type{
             position: absolute;
@@ -305,35 +317,5 @@
       opacity: 0.5;
       cursor: not-allowed;
     }
-  }
-}
-.loading-spinner {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.8);
-  z-index: 1000;
-
-  > .spinner {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    border-top: 4px solid red;
-    animation: spin 1s linear infinite;
-  }
-
-  > .logo {
-    position: absolute;
-  }
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
   }
 }

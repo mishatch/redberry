@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {Observable} from "rxjs";
+import {Estate} from "../../../shared/models/estate.model";
 
 @Injectable({
   providedIn: 'root'
@@ -17,12 +19,12 @@ export class RealEstateService {
 
     return this.http.get(`${this.apiUrl}/real-estates`, {headers});
   }
-  getEstateById(id: any) {
+  getEstateById(id: number | string | null): Observable<Estate[]>{
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.token}`
     });
 
-    return this.http.get(`${this.apiUrl}/real-estates/${id}`, {headers});
+    return this.http.get<Estate[]>(`${this.apiUrl}/real-estates/${id}`, {headers});
   }
   deleteEstate(id: any) {
     const headers = new HttpHeaders({

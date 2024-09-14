@@ -84,8 +84,9 @@
       </div>
     </div>
   </div>
+  <h5 class="firago-500 similar-location">ბინები მსგავს ლოკაციაზე</h5>
 }
-@if (estate){
+@if (similarEstates.length > 0){
   @if (itemKeys){
     <ng-container>
       @if (itemMap){
@@ -110,13 +111,13 @@
             </div>
           }
           <div class="carousel__scroller">
-            @for (groupNumber of itemKeys; track groupNumber){
+
               <section
                 class="carousel__group"
                 id="{{ componentId }}-group-{{ groupNumber }}"
+                *ngFor="let groupNumber of itemKeys"
               >
-                @for (item of itemMap.get(groupNumber); track item){
-                  <ng-container>
+                  <ng-container *ngFor="let item of itemMap.get(groupNumber)">
                     <div class="carousel__item">
                       <div class="estate-card" (click)="viewEstateDetails(item)">
                         <div class="estate-image">
@@ -168,9 +169,7 @@
                       </div>
                     </div>
                   </ng-container>
-                }
               </section>
-            }
           </div>
           <div
             class="carousel__btn-container carousel__btn-container--next"
@@ -189,6 +188,8 @@
       }
     </ng-container>
   }
+} @else {
+  <p class="no-estates">მსგავს ლოკაციაზე ბინები არ მოიძებნა :( </p>
 }
 <ng-template #confirmation let-modal>
   <div class="modal-header">
@@ -205,9 +206,5 @@
   </div>
 </ng-template>
 @if (isLoading){
-  <div class="loading-spinner">
-    <div class="spinner">
-    </div>
-  </div>
-
+  <app-loading></app-loading>
 }
