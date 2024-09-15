@@ -1,7 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {NgbDropdownModule, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {RouterLink} from "@angular/router";
-import {AgentModalComponent} from "../agent-modal/agent-modal.component";
+import {AgentModalComponent} from "../../../../shared/components/agent-modal/agent-modal.component";
 
 @Component({
   selector: 'app-filter',

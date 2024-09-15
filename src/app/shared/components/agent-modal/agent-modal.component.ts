@@ -1,26 +1,29 @@
-import { Component, OnInit, TemplateRef, ViewChild, ElementRef } from '@angular/core';
+import {Component, OnInit, TemplateRef, ViewChild, ElementRef, OnDestroy} from '@angular/core';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { emailDomainValidator } from "../../../../shared/validators/email-domain.validator";
-import { phoneNumberValidator } from "../../../../shared/validators/phone-number.validator";
-import {catchError, Observable, of} from "rxjs";
-import {AgentService} from "../../../../shared/services/agent.service";
+import { emailDomainValidator } from "../../validators/email-domain.validator";
+import { phoneNumberValidator } from "../../validators/phone-number.validator";
+import {catchError, Observable, of, Subscription} from "rxjs";
+import {AgentService} from "../../services/agent.service";
+import {LoadingComponent} from "../loading/loading.component";
 
 @Component({
   selector: 'app-agent-modal',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, LoadingComponent],
   templateUrl: './agent-modal.component.html',
   styleUrls: ['./agent-modal.component.scss']
 })
 export class AgentModalComponent implements OnInit {
-  agentForm!: FormGroup;
-  selectedFile: File | null = null;
-  imagePreview: string | ArrayBuffer | null = null;
+  public agentForm!: FormGroup;
+  public selectedFile: File | null = null;
+  public imagePreview: string | ArrayBuffer | null = null;
+  public isLoading: boolean = false;
 
   @ViewChild('agentModalTemplate') agentModalTemplate!: TemplateRef<any>;
   @ViewChild('fileInput') fileInput!: ElementRef;
-  private modalRef: any;  // Store a reference to the modal
+
+  private modalRef: any;
 
   constructor(private ngbModal: NgbModal, private fb: FormBuilder, private agentService: AgentService) {}
 
@@ -29,15 +32,16 @@ export class AgentModalComponent implements OnInit {
     this.loadFormData();
   }
 
-  openModal() {
+  public openModal() {
     this.modalRef = this.ngbModal.open(this.agentModalTemplate, {
       centered: true,
       size: 'xl'
     });
   }
 
-  onSubmit() {
+  public onSubmit() {
     if (this.selectedFile) {
+      this.isLoading = true;
       const formData = new FormData();
       formData.append('name', this.agentForm.get('name')?.value);
       formData.append('surname', this.agentForm.get('surname')?.value);
@@ -47,19 +51,20 @@ export class AgentModalComponent implements OnInit {
 
       this.agentService.addAgent(formData).subscribe(
           response => {
-            console.log(response);
             this.clearLocalStorage();
             this.initAgentForm();
             this.deleteImage();
+            this.modalRef.close('Close click');
+            this.isLoading = false;
           },
           error => {
-            console.log(error);
+            this.isLoading = false;
           }
       );
     }
   }
 
-  onFileSelected(event: Event) {
+  public onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.selectedFile = input.files[0];
@@ -73,13 +78,20 @@ export class AgentModalComponent implements OnInit {
     }
   }
 
-  deleteImage() {
+  public deleteImage() {
     this.selectedFile = null;
     this.imagePreview = null;
     this.removeFileData();
 
     if (this.fileInput) {
       this.fileInput.nativeElement.value = '';
+    }
+  }
+
+  public onCancel() {
+    this.clearLocalStorage();
+    if (this.modalRef) {
+      this.modalRef.close('Close click');
     }
   }
 
@@ -182,13 +194,6 @@ export class AgentModalComponent implements OnInit {
           return of(null);
         })
     );
-  }
-
-  public onCancel() {
-    this.clearLocalStorage();
-    if (this.modalRef) {
-      this.modalRef.close('Close click');
-    }
   }
 
   private clearLocalStorage() {

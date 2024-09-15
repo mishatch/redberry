@@ -144,13 +144,16 @@
       <h5 class="firago-500">აგენტი</h5>
       <div class="form-group">
         <label for="agent">აირჩიე</label>
-        <select id="agent" (change)="getAgentId($event)" >
+        <select id="agent" (change)="getAgent($event)" >
           @for (agent of agents; track agent){
           <option [value]="agent.id">{{ agent.name }} {{agent.surname}}</option>
           }
         </select>
       </div>
     </div>
-    <button type="submit" class="btn btn-primary">დამატება</button>
+    <div class="buttons">
+      <button type="button" class="secondary-button" (click)="onCancel()">გაუქმება</button>
+      <button type="submit" class="primary-button" [disabled]="!listingForm.valid" [class.is-disabled]="!listingForm.valid || !selectedFile">დაამატე ლისტინგი</button>
+    </div>
   </form>
 </div>

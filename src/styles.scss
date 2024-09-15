@@ -1,5 +1,5 @@
 @import 'bootstrap/scss/bootstrap';
-@import '@fontsource/firago';
+@import "./variables";
 * {
   margin: 0;
   padding: 0;
@@ -71,4 +71,40 @@
 }
 .firago-900 {
   font-family: 'FiraGO-900', sans-serif;
+}
+
+.secondary-button {
+  padding: 10px 16px;
+  border-radius: 10px;
+  transition: 0.3s;
+  border: 1px solid $primary-red;
+  color: $primary-red;
+  background-color: transparent;
+  &:hover {
+    background-color: $primary-red;
+    color: white;
+  }
+  &.is-disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+
+  }
+}
+.primary-button {
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: none;
+  transition: 0.3s;
+  background-color: $primary-red;
+  color: white;
+  &:hover {
+    background-color: $btn-hover;
+  }
+  &.is-disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+    &:hover {
+      background-color: $primary-red;
+    }
+  }
 }

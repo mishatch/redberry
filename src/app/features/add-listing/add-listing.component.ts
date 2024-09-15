@@ -1,30 +1,33 @@
 import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {GeographicInfoService} from './services/geographic-info.service';
-import {NgFor} from "@angular/common";
 import {City, Region} from "./models/geographic.models";
 import {AgentService} from "../../shared/services/agent.service";
 import {Agent} from "../../shared/models/agent.model";
 import {minWordsValidator} from "../../shared/validators/min-words.validator";
 import {Observable} from "rxjs";
 import {ListingService} from "./services/listing.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-add-listing',
   standalone: true,
-  imports: [ReactiveFormsModule, NgFor],
+  imports: [ReactiveFormsModule],
   templateUrl: './add-listing.component.html',
   styleUrls: ['./add-listing.component.scss']
 })
 export class AddListingComponent implements OnInit {
-  listingForm!: FormGroup;
-  regions: Region[] = [];
-  cities: City[] = [];
-  filteredCities: City[] = [];
-  agents: Agent[] = [];
-  selectedFile: File | null = null;
-  imagePreview: string | ArrayBuffer | null = null;
-  agentId!: number;
+  public listingForm!: FormGroup;
+
+  //needs refactor here
+  public regions: Region[] = [];
+  public cities: City[] = [];
+  public filteredCities: City[] = [];
+  public agents: Agent[] = [];
+
+  public selectedFile: File | null = null;
+  public imagePreview: string | ArrayBuffer | null = null;
+
 
   @ViewChild('fileInput') fileInput!: ElementRef;
 
@@ -32,7 +35,8 @@ export class AddListingComponent implements OnInit {
     private fb: FormBuilder,
     private geographicInfoService: GeographicInfoService,
     private agentService: AgentService,
-    private listingService: ListingService
+    private listingService: ListingService,
+    private router: Router
   ) {
   }
 
@@ -44,7 +48,7 @@ export class AddListingComponent implements OnInit {
     this.getAgents();
   }
 
-  onSubmit() {
+  public onSubmit() {
     if(this.selectedFile){
       const formData = new FormData();
       const created_at = new Date().toISOString();
@@ -58,12 +62,9 @@ export class AddListingComponent implements OnInit {
       formData.append('area', this.listingForm.get('area')?.value);
       formData.append('created_at', created_at);
       formData.append('region_id', this.listingForm.get('region')?.value);
-      formData.append('agent_id', this.agentId.toString());
+      formData.append('agent_id', this.listingForm.get('agent_id')?.value);
       formData.append('image', this.selectedFile);
 
-      formData.forEach((value, key) => {
-        console.log(key + ': ' + value);
-      });
 
       this.listingService.addListing(formData).subscribe(
         response => {
@@ -80,12 +81,15 @@ export class AddListingComponent implements OnInit {
         }
       );
     }
+    console.log(this.listingForm.value);
+    console.log(this.selectedFile);
   }
 
   onRegionChange(event: Event) {
     const selectedRegionId = (event.target as HTMLSelectElement).value;
-    this.listingForm.get('region')?.setValue(selectedRegionId);
+    this.listingForm.get('region')?.setValue(Number(selectedRegionId));
     this.filteredCities = this.cities.filter(city => city.region_id === Number(selectedRegionId));
+    this.listingForm.get('city')?.setValue(this.filteredCities[0].id);
   }
 
   getCityId(event: Event) {
@@ -117,10 +121,13 @@ export class AddListingComponent implements OnInit {
       this.fileInput.nativeElement.value = '';
     }
   }
-  getAgentId(event: Event) {
+  getAgent(event: Event) {
     const target = event.target as HTMLSelectElement;
-    const agentId = Number(target.value);
-    this.agentId = agentId;
+    this.listingForm.get('agent_id')?.setValue(Number(target.value));
+  }
+
+  onCancel() {
+    this.router.navigate(['/']);
   }
 
   get address() {
@@ -164,55 +171,13 @@ export class AddListingComponent implements OnInit {
       region: ['', [Validators.required]],
       bedrooms: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
       area: ['', [Validators.required, Validators.pattern('^[0-9]+(\.[0-9]+)?$')]],
-      agent_id: [null],
+      agent_id: [''],
     });
 
     // Save form data to localStorage on value changes
     this.listingForm.valueChanges.subscribe(values => {
       localStorage.setItem('estateFormData', JSON.stringify(values));
     });
-
-  }
-
-  private getRegions() {
-    this.geographicInfoService.getRegions().subscribe((regions: Region[]) => {
-      this.regions = regions;
-      this.listingForm.get('region')?.setValue(this.regions[0].id);
-    });
-  }
-
-  private getCities() {
-    this.geographicInfoService.getCities().subscribe((cities: City[]) => {
-      this.cities = cities;
-      this.filteredCities = this.cities.filter(city => city.region_id === 1);
-      this.listingForm.get('city')?.setValue(this.cities[0].id);
-    });
-  }
-
-  private getAgents() {
-    this.agentService.getAgents().subscribe((agents: Agent[]) => {
-      this.agents = agents;
-      this.agentId = this.agents[0].id;
-    });
-  }
-
-  private saveFileData() {
-    if (this.imagePreview) {
-      localStorage.setItem('estateImagePreview', this.imagePreview as string);
-    }
-    if (this.selectedFile) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const fileData = reader.result as string;
-        localStorage.setItem('estateFile', fileData);
-      };
-      reader.readAsDataURL(this.selectedFile);
-    }
-  }
-
-  private removeFileData() {
-    localStorage.removeItem('estateFile');
-    localStorage.removeItem('estateImagePreview');
   }
 
   private loadFormData() {
@@ -237,6 +202,7 @@ export class AddListingComponent implements OnInit {
     }
   }
 
+
   private convertBase64ToFile(base64: string, fileName: string) {
     // Conversion logic to convert base64 string back to file
     return new Observable<File | null>(observer => {
@@ -252,4 +218,46 @@ export class AddListingComponent implements OnInit {
       observer.complete();
     });
   }
+
+  private getRegions() {
+    this.geographicInfoService.getRegions().subscribe((regions: Region[]) => {
+      this.regions = regions;
+      this.listingForm.get('region')?.setValue(this.regions[0].id);
+    });
+  }
+
+  private getCities() {
+    this.geographicInfoService.getCities().subscribe((cities: City[]) => {
+      this.cities = cities;
+      this.filteredCities = this.cities.filter(city => city.region_id === 1);
+      this.listingForm.get('city')?.setValue(this.cities[0].id);
+    });
+  }
+
+  private getAgents() {
+    this.agentService.getAgents().subscribe((agents: Agent[]) => {
+      this.agents = agents;
+      this.listingForm.get('agent_id')?.setValue(this.agents[0].id);
+    });
+  }
+
+  private saveFileData() {
+    if (this.imagePreview) {
+      localStorage.setItem('estateImagePreview', this.imagePreview as string);
+    }
+    if (this.selectedFile) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const fileData = reader.result as string;
+        localStorage.setItem('estateFile', fileData);
+      };
+      reader.readAsDataURL(this.selectedFile);
+    }
+  }
+
+  private removeFileData() {
+    localStorage.removeItem('estateFile');
+    localStorage.removeItem('estateImagePreview');
+  }
+
 }

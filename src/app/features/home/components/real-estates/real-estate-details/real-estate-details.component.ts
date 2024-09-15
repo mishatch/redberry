@@ -132,7 +132,7 @@ export class RealEstateDetailsComponent implements OnInit, OnDestroy {
   private getEstate(similarId?: number): void {
     const id = similarId ? similarId : this.route.snapshot.paramMap.get('id');
     this.subscription =  this.estateService.getEstateById(id).subscribe(
-      (data: any) => {
+      (data) => {
         this.estate = data;
         this.getSimilarEstates();
       },
@@ -144,7 +144,7 @@ export class RealEstateDetailsComponent implements OnInit, OnDestroy {
 
   private getSimilarEstates(): void {
     this.subscription = this.estateService.getEstates().subscribe(
-      (data: any) => {
+      (data) => {
         this.similarEstates = data.filter((estate: Estate) => estate.city_id === this.estate?.city_id && estate.id !== this.estate?.id);
         this.createSliderGroups();
         this.numberOfPages = Math.ceil(this.similarEstates.length / this.pageSize);

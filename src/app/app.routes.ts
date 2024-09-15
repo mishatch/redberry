@@ -3,7 +3,7 @@ import {HomeComponent} from "./features/home/home.component";
 import {AddListingComponent} from "./features/add-listing/add-listing.component";
 import {
   RealEstateDetailsComponent
-} from "./features/home/components/apartments/real-estate-details/real-estate-details.component";
+} from "./features/home/components/real-estates/real-estate-details/real-estate-details.component";
 
 export const routes: Routes = [
   {

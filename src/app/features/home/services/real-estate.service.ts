@@ -12,19 +12,19 @@ export class RealEstateService {
 
   constructor(private http: HttpClient) { }
 
-  getEstates() {
+  getEstates(): Observable<Estate[]> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.token}`
     });
 
-    return this.http.get(`${this.apiUrl}/real-estates`, {headers});
+    return this.http.get<Estate[]>(`${this.apiUrl}/real-estates`, {headers});
   }
-  getEstateById(id: number | string | null): Observable<Estate[]>{
+  getEstateById(id: number | string | null): Observable<Estate>{
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.token}`
     });
 
-    return this.http.get<Estate[]>(`${this.apiUrl}/real-estates/${id}`, {headers});
+    return this.http.get<Estate>(`${this.apiUrl}/real-estates/${id}`, {headers});
   }
   deleteEstate(id: any) {
     const headers = new HttpHeaders({
