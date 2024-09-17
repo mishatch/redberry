@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {GeographicInfoService} from './services/geographic-info.service';
+import {GeographicInfoService} from '../../shared/services/geographic-info.service';
 import {City, Region} from "./models/geographic.models";
 import {AgentService} from "../../shared/services/agent.service";
 import {Agent} from "../../shared/models/agent.model";

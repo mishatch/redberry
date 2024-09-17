@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {City, Region} from "../models/geographic.models";
+import {City, Region} from "../../features/add-listing/models/geographic.models";
 
 @Injectable({
   providedIn: 'root'

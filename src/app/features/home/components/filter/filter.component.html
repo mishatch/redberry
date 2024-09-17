@@ -2,56 +2,178 @@
   <div>
     <div>
       <div class="col">
-        <div ngbDropdown class="d-inline-block">
-          <button type="button" class="btn btn-outline-primary  firago-500" id="region" ngbDropdownToggle>
+        <div ngbDropdown class="d-inline-block" #regionDropdown="ngbDropdown">
+          <button type="button" class="btn btn-outline-primary dropdown-toggle-btn  firago-500" id="region" ngbDropdownToggle>
             რეგიონი
           </button>
           <div ngbDropdownMenu aria-labelledby="region" class="region-dropdown">
-            <button ngbDropdownItem>Action - 1</button>
-            <button ngbDropdownItem>Another Action</button>
-            <button ngbDropdownItem>Something else is here</button>
+            <h5 class="firago-500">რეგიონის მიხედვით</h5>
+            <div class="checkbox-wrapper">
+              @for (region of regions; track region){
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" [value]="region.id" [id]="region.name" [(ngModel)]="selectedRegionIds[region.id]">
+                  <label class="form-check-label" [for]="region.name">
+                    {{ region.name }}
+                  </label>
+                </div>
+              }
+            </div>
+            <button class="primary-button" (click)="onSubmitRegion(); regionDropdown.close()">არჩევა</button>
           </div>
         </div>
       </div>
       <div class="col">
-        <div ngbDropdown class="d-inline-block">
-          <button type="button" class="btn btn-outline-primary  firago-500" id="price" ngbDropdownToggle>
+        <div ngbDropdown class="d-inline-block" #priceDropdown="ngbDropdown">
+          <button type="button" class="btn btn-outline-primary dropdown-toggle-btn  firago-500" id="price" ngbDropdownToggle>
             საფასო კატეგორია
           </button>
           <div ngbDropdownMenu aria-labelledby="price" class="price-dropdown">
-            <button ngbDropdownItem>Action - 1</button>
-            <button ngbDropdownItem>Another Action</button>
-            <button ngbDropdownItem>Something else is here</button>
+            <h5 class="firago-500">ფასის მიხედვით</h5>
+            <form [formGroup]="priceForm">
+              <div class="price-inputs">
+                <input type="text" class="form-control" placeholder="დან" formControlName="minPrice">
+                <input type="text" class="form-control" placeholder="მდე" formControlName="maxPrice">
+              </div>
+              @if (priceForm.hasError('minGreaterThanMax')){
+                <small class="text-danger">
+                  ჩაწერეთ ვალიდური მონაცემები
+                </small>
+              } @else if(priceForm.hasError('bothFieldsRequired')){
+                <small class="text-danger">
+                  ჩაწერეთ ვალიდური მონაცემები
+                </small>
+              }
+            </form>
+            <div class="prices">
+              <div class="min-price">
+                <h6>მინ. ფასი</h6>
+                <button class="btn" (click)="setMinPrice(50000)">50, 000</button>
+                <button class="btn" (click)="setMinPrice(100000)">100, 000</button>
+                <button class="btn" (click)="setMinPrice(150000)">150, 000</button>
+                <button class="btn" (click)="setMinPrice(200000)">200, 000</button>
+                <button class="btn" (click)="setMinPrice(300000)">300, 000</button>
+              </div>
+              <div class="max-price">
+                <h6>მაქს. ფასი</h6>
+                <button class="btn" (click)="setMaxPrice(50000)">50, 000</button>
+                <button class="btn" (click)="setMaxPrice(100000)">100, 000</button>
+                <button class="btn" (click)="setMaxPrice(150000)">150, 000</button>
+                <button class="btn" (click)="setMaxPrice(200000)">200, 000</button>
+                <button class="btn" (click)="setMaxPrice(300000)">300, 000</button>
+              </div>
+            </div>
+            <button
+              class="primary-button"
+              (click)="onSubmitPrice();
+              priceDropdown.close()"
+              [disabled]="(!minPrice?.value || !maxPrice?.value) || priceForm.invalid"
+              [class.is-disabled]="(!minPrice?.value || !maxPrice?.value) || priceForm.invalid"
+            >
+              არჩევა
+            </button>
           </div>
         </div>
       </div>
       <div class="col">
-        <div ngbDropdown class="d-inline-block">
-          <button type="button" class="btn btn-outline-primary  firago-500" id="area" ngbDropdownToggle>
+        <div ngbDropdown class="d-inline-block" #areaDropdown="ngbDropdown">
+          <button type="button" class="btn btn-outline-primary dropdown-toggle-btn  firago-500" id="area" ngbDropdownToggle>
             ფართობი
           </button>
           <div ngbDropdownMenu aria-labelledby="area" class="area-dropdown">
-            <button ngbDropdownItem>Action - 1</button>
-            <button ngbDropdownItem>Another Action</button>
-            <button ngbDropdownItem>Something else is here</button>
+            <h5 class="firago-500">ფართობის მიხედვით მიხედვით</h5>
+            <form [formGroup]="areaForm">
+              <div class="area-inputs">
+                <input type="text" class="form-control" placeholder="დან" formControlName="minArea">
+                <input type="text" class="form-control" placeholder="მდე" formControlName="maxArea">
+              </div>
+              @if (areaForm.hasError('minGreaterThanMax')){
+                <small class="text-danger">
+                  ჩაწერეთ ვალიდური მონაცემები
+                </small>
+              } @else if(areaForm.hasError('bothFieldsRequired')){
+                <small class="text-danger">
+                  ჩაწერეთ ვალიდური მონაცემები
+                </small>
+              }
+            </form>
+            <div class="areas">
+              <div class="min-area">
+                <h6>მინ. მ2</h6>
+                <button class="btn" (click)="setMinArea(50)">50</button>
+                <button class="btn" (click)="setMinArea(100)">100</button>
+                <button class="btn" (click)="setMinArea(150)">150</button>
+                <button class="btn" (click)="setMinArea(200)">200</button>
+                <button class="btn" (click)="setMinArea(300)">300</button>
+              </div>
+              <div class="max-area">
+                <h6>მაქს. მ2   </h6>
+                <button class="btn" (click)="setMaxArea(50)">50</button>
+                <button class="btn" (click)="setMaxArea(100)">100</button>
+                <button class="btn" (click)="setMaxArea(150)">150</button>
+                <button class="btn" (click)="setMaxArea(200)">200</button>
+                <button class="btn" (click)="setMaxArea(300)">300</button>
+              </div>
+            </div>
+            <button
+              class="primary-button"
+              (click)="onSubmitArea(); areaDropdown.close()"
+              [disabled]="(!minArea?.value || !maxArea?.value) || areaForm.invalid"
+              [class.is-disabled]="(!minArea?.value || !maxArea?.value) || areaForm.invalid"
+            >
+              არჩევა
+            </button>
           </div>
         </div>
       </div>
       <div class="col">
         <div ngbDropdown class="d-inline-block">
-          <button type="button" class="btn btn-outline-primary  firago-500" id="bedrooms" ngbDropdownToggle>
+          <button type="button" class="btn btn-outline-primary dropdown-toggle-btn  firago-500" id="bedrooms" ngbDropdownToggle>
             საძინებლების რაოდენობა
           </button>
           <div ngbDropdownMenu aria-labelledby="bedrooms" class="bedrooms-dropdown">
-            <button ngbDropdownItem>Action - 1</button>
-            <button ngbDropdownItem>Another Action</button>
-            <button ngbDropdownItem>Something else is here</button>
+            <h5>საძინებლების რაოდენობა</h5>
+            <input type="text" class="form-control">
+            <button class="primary-button">არჩევა</button>
           </div>
         </div>
       </div>
     </div>
-    <div>
-  skubi dubi du
+    <div class="filter-options">
+      @if (filterOptions.regionIds.length > 0){
+        @for (regionId of filterOptions.regionIds; track regionId){
+          <div class="filter-option">
+            {{ getRegionNameById(regionId) }}
+            <span (click)="removeRegion(regionId)">
+              <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10.5 4L3.5 11" stroke="#354451" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M3.5 4L10.5 11" stroke="#354451" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </div>
+        }
+      }
+      @if (filterOptions.priceMax && filterOptions.priceMin){
+        <div class="filter-option">
+          {{ filterOptions.priceMin }}ლ - {{ filterOptions.priceMax }}ლ
+          <span (click)="onClearPrice()">
+        <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10.5 4L3.5 11" stroke="#354451" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M3.5 4L10.5 11" stroke="#354451" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+        </div>
+      }
+      @if (filterOptions.areaMax && filterOptions.areaMin){
+        <div class="filter-option">
+          {{ filterOptions.areaMin }}მ2 - {{ filterOptions.areaMax }}მ2
+          <span (click)="onClearArea()">
+        <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10.5 4L3.5 11" stroke="#354451" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M3.5 4L10.5 11" stroke="#354451" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+        </div>
+      }
     </div>
   </div>
   <div>
