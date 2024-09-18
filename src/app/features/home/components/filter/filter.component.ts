@@ -20,7 +20,9 @@ import {FilterOptions} from "../../../../shared/models/filter-options.model";
 export class FilterComponent implements OnInit {
   public priceForm!: FormGroup;
   public areaForm!: FormGroup;
+
   public selectedRegionIds: { [key: number]: boolean } = {};
+  public bedrooms: number | null = null;
 
   public filterOptions: FilterOptions = {} as FilterOptions;
   public regions: Region[] = [];
@@ -124,8 +126,8 @@ export class FilterComponent implements OnInit {
   public onSubmitPrice() {
     if (this.priceForm.valid) {
       const priceFilterCriteria = {
-        priceMin: this.priceForm.get('minPrice')?.value,
-        priceMax: this.priceForm.get('maxPrice')?.value
+        priceMin: Number(this.priceForm.get('minPrice')?.value),
+        priceMax: Number(this.priceForm.get('maxPrice')?.value)
       };
 
       const currentCriteria = this.filterService.getCurrentFilterCriteria();
@@ -187,6 +189,30 @@ export class FilterComponent implements OnInit {
     };
 
     this.filterService.updateFilterCriteria(updatedCriteria);
+  }
+
+  public onSubmitBedrooms() {
+    const currentCriteria = this.filterService.getCurrentFilterCriteria();
+    const updatedCriteria = {
+      ...currentCriteria,
+      bedrooms: this.bedrooms
+    };
+
+    this.filterService.updateFilterCriteria(updatedCriteria);
+    console.log('Bedrooms filter updated:', updatedCriteria);
+  }
+
+  public onClearBedrooms() {
+    this.bedrooms = null;
+
+    const currentCriteria = this.filterService.getCurrentFilterCriteria();
+    const updatedCriteria = {
+      ...currentCriteria,
+      bedrooms: null
+    };
+
+    this.filterService.updateFilterCriteria(updatedCriteria);
+    console.log('Bedrooms filter cleared:', updatedCriteria);
   }
 
   private getRegions() {

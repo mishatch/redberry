@@ -126,14 +126,14 @@
         </div>
       </div>
       <div class="col">
-        <div ngbDropdown class="d-inline-block">
+        <div ngbDropdown class="d-inline-block" #bedroomsDropdown="ngbDropdown">
           <button type="button" class="btn btn-outline-primary dropdown-toggle-btn  firago-500" id="bedrooms" ngbDropdownToggle>
             საძინებლების რაოდენობა
           </button>
           <div ngbDropdownMenu aria-labelledby="bedrooms" class="bedrooms-dropdown">
             <h5>საძინებლების რაოდენობა</h5>
-            <input type="text" class="form-control">
-            <button class="primary-button">არჩევა</button>
+            <input type="number" class="form-control" [(ngModel)]="bedrooms">
+            <button class="primary-button" (click)="onSubmitBedrooms(); bedroomsDropdown.close()">არჩევა</button>
           </div>
         </div>
       </div>
@@ -167,6 +167,17 @@
         <div class="filter-option">
           {{ filterOptions.areaMin }}მ2 - {{ filterOptions.areaMax }}მ2
           <span (click)="onClearArea()">
+        <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10.5 4L3.5 11" stroke="#354451" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M3.5 4L10.5 11" stroke="#354451" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+        </div>
+      }
+      @if (filterOptions.bedrooms){
+        <div class="filter-option">
+          {{ bedrooms }}
+          <span (click)="onClearBedrooms()">
         <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M10.5 4L3.5 11" stroke="#354451" stroke-linecap="round" stroke-linejoin="round"/>
           <path d="M3.5 4L10.5 11" stroke="#354451" stroke-linecap="round" stroke-linejoin="round"/>
