@@ -129,6 +129,19 @@
           display: flex;
           margin: 24px 0;
           gap: 15px;
+          position: relative;
+          span {
+            display: flex;
+            align-items: center;
+            position: absolute;
+            top: 8px;
+            &:first-of-type{
+              left: 135px;
+            }
+            &:last-of-type{
+              right: 12px;
+            }
+          }
         }
         >h5 {
           padding: 0;
@@ -157,6 +170,19 @@
           display: flex;
           margin: 24px 0;
           gap: 15px;
+          position: relative;
+          span {
+            display: flex;
+            align-items: center;
+            position: absolute;
+            top: 8px;
+            &:first-of-type{
+              left: 135px;
+            }
+            &:last-of-type{
+              right: 12px;
+            }
+          }
         }
         >h5 {
           padding: 0;

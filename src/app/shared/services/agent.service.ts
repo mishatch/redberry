@@ -11,11 +11,11 @@ export class AgentService {
 
   constructor(private http: HttpClient) { }
 
-  getAgents(): Observable<Agent[]> {
+  public getAgents(): Observable<Agent[]> {
     return this.http.get<Agent[]>(`${this.apiUrl}/agents`);
   }
 
-  addAgent(agent: any) {
+  public addAgent(agent: any) {
     return this.http.post(`${this.apiUrl}/agents`, agent);
   }
 }

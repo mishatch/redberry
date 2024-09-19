@@ -46,8 +46,8 @@
         <div class="form-group">
           <label for="region">რეგიონი</label>
           <select id="region" formControlName="region" (change)="onRegionChange($event)" >
+            <option value="-1" selected disabled>აირჩიე</option>
             @for (region of regions; track region){
-
             <option [value]="region.id" >{{ region.name }}</option>
             }
           </select>
@@ -55,6 +55,7 @@
         <div class="form-group">
           <label for="city">ქალაქი</label>
           <select id="city" formControlName="city" (change)="getCityId($event)" >
+            <option value="-1" selected disabled>აირჩიე</option>
             @for (city of filteredCities; track city){
             <option [value]="city.id">{{ city.name }}</option>
             }
@@ -143,12 +144,33 @@
     <div class="agent">
       <h5 class="firago-500">აგენტი</h5>
       <div class="form-group">
-        <label for="agent">აირჩიე</label>
-        <select id="agent" (change)="getAgent($event)" formControlName="agent_id">
-          @for (agent of agents; track agent){
-          <option [value]="agent.id">{{ agent.name }} {{agent.surname}}</option>
-          }
-        </select>
+        <div ngbDropdown class="d-inline-block">
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            id="agentDropdown"
+            ngbDropdownToggle
+            (click)="onDropdownClick($event)">
+            {{ getSelectedAgentName() || 'აირჩიე' }}
+          </button>
+          <div ngbDropdownMenu aria-labelledby="agentDropdown">
+            <button (click)="openAgentModal()" ngbDropdownItem>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#2D3648" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 8V16" stroke="#2D3648" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8 12H16" stroke="#2D3648" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              აგენტის დამატება
+            </button>
+            <button
+              *ngFor="let agent of agents"
+              ngbDropdownItem
+              (click)="selectAgent(agent); onDropdownClick($event)"
+              [class.active]="agent.id === selectedAgentId">
+              {{ agent.name }} {{ agent.surname }}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
     <div class="buttons">
@@ -157,3 +179,4 @@
     </div>
   </form>
 </div>
+<app-agent-modal #agentModal></app-agent-modal>

@@ -45,6 +45,9 @@
                   formControlName="minPrice"
                   [class.invalid]="priceForm.hasError('minGreaterThanMax') || priceForm.hasError('bothFieldsRequired')"
                 >
+                <span class="gel-icon">
+                  ₾
+                </span>
                 <input
                   type="text"
                   class="form-control"
@@ -52,6 +55,9 @@
                   formControlName="maxPrice"
                   [class.invalid]="priceForm.hasError('minGreaterThanMax') || priceForm.hasError('bothFieldsRequired')"
                 >
+                <span class="gel-icon">
+                  ₾
+                </span>
               </div>
               @if (priceForm.hasError('minGreaterThanMax')){
                 <small class="firago-400">
@@ -109,6 +115,9 @@
                   formControlName="minArea"
                   [class.invalid]="areaForm.hasError('minGreaterThanMax') || areaForm.hasError('bothFieldsRequired')"
                 >
+                <span class="area-icon">
+                  მ²
+                </span>
                 <input
                   type="text"
                   class="form-control"
@@ -116,6 +125,9 @@
                   formControlName="maxArea"
                   [class.invalid]="areaForm.hasError('minGreaterThanMax') || areaForm.hasError('bothFieldsRequired')"
                 >
+                <span class="area-icon">
+                  მ²
+                </span>
               </div>
               @if (areaForm.hasError('minGreaterThanMax')){
                 <small class="firago-400">

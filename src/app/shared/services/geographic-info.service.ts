@@ -11,10 +11,10 @@ export class GeographicInfoService {
 
   constructor(private http: HttpClient) { }
 
-  getRegions(): Observable<Region[]> {
+  public getRegions(): Observable<Region[]> {
     return this.http.get<Region[]>(`${this.apiUrl}/regions`);
   }
-  getCities(): Observable<City[]> {
+  public getCities(): Observable<City[]> {
     return this.http.get<City[]>(`${this.apiUrl}/cities`);
   }
 }

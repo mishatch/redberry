@@ -6,6 +6,7 @@ import { phoneNumberValidator } from "../../validators/phone-number.validator";
 import {catchError, Observable, of, Subscription} from "rxjs";
 import {AgentService} from "../../services/agent.service";
 import {LoadingComponent} from "../loading/loading.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-agent-modal',
@@ -25,7 +26,7 @@ export class AgentModalComponent implements OnInit {
 
   private modalRef: any;
 
-  constructor(private ngbModal: NgbModal, private fb: FormBuilder, private agentService: AgentService) {}
+  constructor(private ngbModal: NgbModal, private fb: FormBuilder, private agentService: AgentService, private router: Router) {}
 
   ngOnInit() {
     this.initAgentForm();
@@ -56,6 +57,9 @@ export class AgentModalComponent implements OnInit {
             this.deleteImage();
             this.modalRef.close('Close click');
             this.isLoading = false;
+            if(this.router.url === '/add-listing') {
+              window.location.reload();
+            }
           },
           error => {
             this.isLoading = false;

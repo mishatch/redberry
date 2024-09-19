@@ -275,6 +275,7 @@ export class FilterComponent implements OnInit {
     );
 
   }
+
   private initAreaForm() {
     this.areaForm = this.fb.group(
       {
