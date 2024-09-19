@@ -42,6 +42,17 @@ export class FilterComponent implements OnInit {
     this.initPriceForm();
     this.initAreaForm();
 
+    const savedCriteria = this.filterService.getCurrentFilterCriteria();
+    this.bedrooms = savedCriteria.bedrooms;
+    this.priceForm.patchValue({
+      minPrice: savedCriteria.priceMin,
+      maxPrice: savedCriteria.priceMax
+    });
+    this.areaForm.patchValue({
+      minArea: savedCriteria.areaMin,
+      maxArea: savedCriteria.areaMax
+    });
+
     this.filterSubscription.add(
       this.filterService.filterCriteria$.subscribe(criteria => {
         this.filterOptions = criteria;
@@ -65,7 +76,6 @@ export class FilterComponent implements OnInit {
   get maxArea() {
     return this.areaForm.get('maxArea');
   }
-
 
   public openAgentModal() {
     this.agentModal.openModal();
@@ -119,7 +129,6 @@ export class FilterComponent implements OnInit {
     };
 
     this.filterService.updateFilterCriteria(updatedCriteria);
-    console.log('Region filter criteria updated:', this.filterOptions);
 
   }
 
@@ -137,7 +146,6 @@ export class FilterComponent implements OnInit {
       };
 
       this.filterService.updateFilterCriteria(updatedCriteria);
-      console.log('Price filter criteria updated:', this.filterOptions);
     }
   }
 
@@ -160,8 +168,8 @@ export class FilterComponent implements OnInit {
   public onSubmitArea() {
     if (this.areaForm.valid) {
       const areaFilterCriteria = {
-        areaMin: this.areaForm.get('minArea')?.value,
-        areaMax: this.areaForm.get('maxArea')?.value
+        areaMin: Number(this.areaForm.get('minArea')?.value),
+        areaMax: Number(this.areaForm.get('maxArea')?.value)
       };
 
       const currentCriteria = this.filterService.getCurrentFilterCriteria();
@@ -171,7 +179,6 @@ export class FilterComponent implements OnInit {
       };
 
       this.filterService.updateFilterCriteria(updatedCriteria);
-      console.log('Area filter criteria updated:', this.filterOptions);
     }
   }
 
@@ -199,7 +206,6 @@ export class FilterComponent implements OnInit {
     };
 
     this.filterService.updateFilterCriteria(updatedCriteria);
-    console.log('Bedrooms filter updated:', updatedCriteria);
   }
 
   public onClearBedrooms() {
@@ -212,7 +218,29 @@ export class FilterComponent implements OnInit {
     };
 
     this.filterService.updateFilterCriteria(updatedCriteria);
-    console.log('Bedrooms filter cleared:', updatedCriteria);
+  }
+
+  public clearFilter() {
+    this.priceForm.patchValue({
+      minPrice: null,
+      maxPrice: null
+    });
+
+    this.areaForm.patchValue({
+      minArea: null,
+      maxArea: null
+    });
+
+    this.bedrooms = null;
+
+    this.filterService.updateFilterCriteria({
+      regionIds: [],
+      priceMin: null,
+      priceMax: null,
+      areaMin: null,
+      areaMax: null,
+      bedrooms: null
+    });
   }
 
   private getRegions() {
@@ -234,7 +262,6 @@ export class FilterComponent implements OnInit {
       }, {} as { [key: number]: boolean });
     }
   }
-
 
   private initPriceForm() {
     this.priceForm = this.fb.group(

@@ -5,20 +5,28 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class FilterService {
-  private filterCriteriaSource = new BehaviorSubject<any>({
-    regionIds: [],
-    priceMin: null,
-    priceMax: null,
-    areaMin: null,
-    areaMax: null,
-    bedrooms: null
-  });
-  filterCriteria$ = this.filterCriteriaSource.asObservable();
+  private filterCriteriaSource = new BehaviorSubject<any>(this.getInitialCriteria());
 
-  updateFilterCriteria(newCriteria: any) {
+  public filterCriteria$ = this.filterCriteriaSource.asObservable();
+
+  public getInitialCriteria() {
+    const savedCriteria = localStorage.getItem('filterCriteria');
+    return savedCriteria ? JSON.parse(savedCriteria) : {
+      regionIds: [],
+      priceMin: null,
+      priceMax: null,
+      areaMin: null,
+      areaMax: null,
+      bedrooms: null
+    };
+  }
+
+  public updateFilterCriteria(newCriteria: any) {
+    localStorage.setItem('filterCriteria', JSON.stringify(newCriteria));
     this.filterCriteriaSource.next(newCriteria);
   }
-  getCurrentFilterCriteria() {
+
+  public getCurrentFilterCriteria() {
     return this.filterCriteriaSource.getValue();
   }
 }

@@ -1,5 +1,5 @@
 <div class="wrapper">
-  @for(estate of realEstates; track estate){
+  @for(estate of filteredRealEstates; track estate){
     <div class="estate-card" (click)="viewEstateDetails(estate)">
       <div class="estate-image">
         <div>
@@ -14,7 +14,7 @@
         <img [src]="estate.image" alt="Real Estate">
       </div>
       <div class="estate-description">
-        <h5 class="firago-700">{{ estate.price }} ლ</h5>
+        <h5 class="firago-700">{{ estate.price | numberSeparator }} ₾</h5>
         <p class="firago-400">
         <span>
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
