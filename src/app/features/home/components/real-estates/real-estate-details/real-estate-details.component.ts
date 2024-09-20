@@ -63,9 +63,6 @@ export class RealEstateDetailsComponent implements OnInit, OnDestroy {
       () => {
         this.modalService.dismissAll();
         this.router.navigate(['/']);
-      },
-      (error) => {
-        console.error(error);
       }
     );
   }

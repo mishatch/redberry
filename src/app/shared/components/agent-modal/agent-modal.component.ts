@@ -94,6 +94,8 @@ export class AgentModalComponent implements OnInit {
 
   public onCancel() {
     this.clearLocalStorage();
+    this.initAgentForm();
+    this.deleteImage();
     if (this.modalRef) {
       this.modalRef.close('Close click');
     }

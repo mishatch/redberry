@@ -21,7 +21,12 @@
       <div>
         <div class="form-group">
           <label for="address">მისამართი *</label>
-          <input type="text" formControlName="address" id="address" />
+          <input
+            type="text"
+            formControlName="address"
+            id="address"
+            [class.invalid]="(address?.touched || address?.dirty) && address?.errors"
+          />
           <small [class.is-valid]="!address?.errors" [class.is-invalid]="(address?.touched || address?.dirty) && address?.errors" >
             <svg width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M11 1.40918L4.125 9.591L1 5.87199" stroke="#021526" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -32,7 +37,12 @@
         </div>
         <div class="form-group">
           <label for="zip_code">საფოსტო ინდექსი *</label>
-          <input type="text" formControlName="zip_code" id="zip_code" />
+          <input
+            type="text"
+            formControlName="zip_code"
+            id="zip_code"
+            [class.invalid]="(zip_code?.touched || zip_code?.dirty) && zip_code?.errors"
+          />
           <small [class.is-valid]="!zip_code?.errors" [class.is-invalid]="(zip_code?.touched || zip_code?.dirty) && zip_code?.errors" >
             <svg width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M11 1.40918L4.125 9.591L1 5.87199" stroke="#021526" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -68,7 +78,12 @@
       <div>
         <div class="form-group">
           <label for="price">ფასი</label>
-          <input type="text" formControlName="price" id="price" />
+          <input
+            type="text"
+            formControlName="price"
+            id="price"
+            [class.invalid]="(price?.touched || price?.dirty) && price?.errors"
+          />
           <small [class.is-valid]="!price?.errors" [class.is-invalid]="(price?.touched || price?.dirty) && price?.errors" >
             <svg width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M11 1.40918L4.125 9.591L1 5.87199" stroke="#021526" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -79,7 +94,12 @@
         </div>
         <div class="form-group">
           <label for="area">ფართობი</label>
-          <input type="text" formControlName="area" id="area" />
+          <input
+            type="text"
+            formControlName="area"
+            id="area"
+            [class.invalid]="(area?.touched || area?.dirty) && area?.errors"
+          />
           <small [class.is-valid]="!area?.errors" [class.is-invalid]="(area?.touched || area?.dirty) && area?.errors" >
             <svg width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M11 1.40918L4.125 9.591L1 5.87199" stroke="#021526" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -92,7 +112,12 @@
       <div>
         <div class="form-group">
           <label for="bedrooms">საძინებლების რაოდენობა *</label>
-          <input type="text" id="bedrooms" formControlName="bedrooms">
+          <input
+            type="text"
+            id="bedrooms"
+            formControlName="bedrooms"
+            [class.invalid]="(bedrooms?.touched || bedrooms?.dirty) && bedrooms?.errors"
+          >
           <small [class.is-valid]="!bedrooms?.errors" [class.is-invalid]="(bedrooms?.touched || bedrooms?.dirty) && bedrooms?.errors" >
             <svg width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M11 1.40918L4.125 9.591L1 5.87199" stroke="#021526" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -104,7 +129,12 @@
       </div>
       <div class="form-group description">
         <label for="description">აღწერა *</label>
-        <textarea formControlName="description" id="description"></textarea>
+        <textarea
+          formControlName="description"
+          id="description"
+          [class.invalid]="(description?.touched || description?.dirty) && description?.errors"
+        >
+        </textarea>
         <small [class.is-valid]="!description?.errors" [class.is-invalid]="(description?.touched || description?.dirty) && description?.errors" >
           <svg width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M11 1.40918L4.125 9.591L1 5.87199" stroke="#021526" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -180,3 +210,6 @@
   </form>
 </div>
 <app-agent-modal #agentModal></app-agent-modal>
+@if (isLoading){
+  <app-loading></app-loading>
+}

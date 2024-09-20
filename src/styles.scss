@@ -108,6 +108,14 @@
     }
   }
 }
-input.invalid {
-  border: 1px solid $primary-red;
+input, textarea {
+  &.invalid {
+    border: 1px solid $primary-red !important;
+    &:focus {
+      box-shadow: 0 0 0 1px $primary-red;
+      outline: none;
+      border: none;
+    }
+  }
+
 }

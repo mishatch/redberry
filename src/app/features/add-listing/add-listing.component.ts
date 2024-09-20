@@ -17,11 +17,12 @@ import { selectIdValidator } from '../../shared/validators/select-id.validator';
 import { AgentModalComponent } from '../../shared/components/agent-modal/agent-modal.component';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgFor } from '@angular/common';
+import {LoadingComponent} from "../../shared/components/loading/loading.component";
 
 @Component({
   selector: 'app-add-listing',
   standalone: true,
-  imports: [ReactiveFormsModule, AgentModalComponent, NgbDropdownModule, NgFor],
+  imports: [ReactiveFormsModule, AgentModalComponent, NgbDropdownModule, NgFor, LoadingComponent],
   templateUrl: './add-listing.component.html',
   styleUrls: ['./add-listing.component.scss'],
 })
@@ -36,6 +37,8 @@ export class AddListingComponent implements OnInit {
 
   public selectedFile: File | null = null;
   public imagePreview: string | ArrayBuffer | null = null;
+
+  public isLoading = false;
 
   @ViewChild('fileInput') fileInput!: ElementRef;
   @ViewChild('agentModal', { static: false }) agentModal!: AgentModalComponent;
@@ -56,35 +59,16 @@ export class AddListingComponent implements OnInit {
     this.getAgents();
   }
 
-  public selectAgent(agent: Agent) {
-    this.selectedAgentId = agent.id;
-    this.listingForm.get('agent_id')?.setValue(agent.id);
-    localStorage.setItem('agentId', agent.id.toString());
-  }
-  public getSelectedAgentName(): string | null {
-    const selectedAgent = this.agents.find(
-      (agent) => agent.id === this.selectedAgentId
-    );
-    return selectedAgent
-      ? `${selectedAgent.name} ${selectedAgent.surname}`
-      : null;
-  }
-
-  public onDropdownClick(event: Event): void {
-    event.stopPropagation();
-    event.preventDefault();
-  }
   public onSubmit() {
     if (this.selectedFile) {
+      this.isLoading = true;
       const formData = this.createFormData();
       this.listingService.addListing(formData).subscribe(
         (response) => {
           this.initListingForm();
           this.deleteImage();
           this.clearLocalStorage();
-        },
-        (error) => {
-          console.log(error);
+          this.isLoading = false;
         }
       );
     }
@@ -104,11 +88,6 @@ export class AddListingComponent implements OnInit {
       (city) => city.region_id === Number(selectedRegionId)
     );
 
-    // const savedCityId = localStorage.getItem('cityId');
-
-    // if (savedCityId && this.filteredCities.some(city => city.id === Number(savedCityId))) {
-    //   this.listingForm.get('city')?.setValue(Number(savedCityId));
-    // }
     this.listingForm.get('city')?.setValue(-1);
   }
 
@@ -145,6 +124,26 @@ export class AddListingComponent implements OnInit {
 
   public openAgentModal() {
     this.agentModal.openModal();
+  }
+
+  public selectAgent(agent: Agent) {
+    this.selectedAgentId = agent.id;
+    this.listingForm.get('agent_id')?.setValue(agent.id);
+    localStorage.setItem('agentId', agent.id.toString());
+  }
+
+  public getSelectedAgentName(): string | null {
+    const selectedAgent = this.agents.find(
+      (agent) => agent.id === this.selectedAgentId
+    );
+    return selectedAgent
+      ? `${selectedAgent.name} ${selectedAgent.surname}`
+      : null;
+  }
+
+  public onDropdownClick(event: Event): void {
+    event.stopPropagation();
+    event.preventDefault();
   }
 
   //getters
@@ -189,7 +188,7 @@ export class AddListingComponent implements OnInit {
       bedrooms: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
       area: [
         '',
-        [Validators.required, Validators.pattern('^[0-9]+(.[0-9]+)?$')],
+        [Validators.required, Validators.pattern('^[0-9]+(\\.[0-9]+)?$')],
       ],
       agent_id: ['-1', [Validators.required, selectIdValidator]],
     });
@@ -334,4 +333,5 @@ export class AddListingComponent implements OnInit {
     }
     return null;
   }
+
 }

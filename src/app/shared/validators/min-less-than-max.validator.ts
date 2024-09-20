@@ -1,4 +1,4 @@
-import { FormGroup, ValidatorFn, AbstractControl } from '@angular/forms';
+import { ValidatorFn, AbstractControl } from '@angular/forms';
 
 export function minLessThanMaxValidator(minKey: string, maxKey: string): ValidatorFn {
   return (formGroup: AbstractControl): { [key: string]: boolean } | null => {
@@ -9,19 +9,29 @@ export function minLessThanMaxValidator(minKey: string, maxKey: string): Validat
       return null;
     }
 
-    // Convert values to numbers
-    const minValue = parseFloat(minControl.value);
-    const maxValue = parseFloat(maxControl.value);
+    const minValue = minControl.value;
+    const maxValue = maxControl.value;
 
     const errors: any = {};
 
-    // Check if only one field is filled
-    if ((minControl.value && !maxControl.value) || (!minControl.value && maxControl.value)) {
+    const isMinValid = /^-?\d+(\.\d+)?$/.test(minValue);
+    const isMaxValid = /^-?\d+(\.\d+)?$/.test(maxValue);
+
+    if (!isMinValid && minValue) {
+      errors.minNotANumber = true;
+    }
+    if (!isMaxValid && maxValue) {
+      errors.maxNotANumber = true;
+    }
+
+    if ((minValue && !maxValue) || (!minValue && maxValue)) {
       errors.bothFieldsRequired = true;
     }
 
-    // Check if min is greater than max
-    if (minValue && maxValue && minValue > maxValue) {
+    const parsedMinValue = isMinValid ? parseFloat(minValue) : NaN;
+    const parsedMaxValue = isMaxValid ? parseFloat(maxValue) : NaN;
+
+    if (!isNaN(parsedMinValue) && !isNaN(parsedMaxValue) && parsedMinValue > parsedMaxValue) {
       errors.minGreaterThanMax = true;
     }
 

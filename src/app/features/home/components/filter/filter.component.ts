@@ -61,22 +61,6 @@ export class FilterComponent implements OnInit {
     );
   }
 
-  get minPrice() {
-    return this.priceForm.get('minPrice');
-  }
-
-  get maxPrice() {
-    return this.priceForm.get('maxPrice');
-  }
-
-  get minArea() {
-    return this.areaForm.get('minArea');
-  }
-
-  get maxArea() {
-    return this.areaForm.get('maxArea');
-  }
-
   public openAgentModal() {
     this.agentModal.openModal();
   }
@@ -111,6 +95,10 @@ export class FilterComponent implements OnInit {
     });
 
     this.filterOptions.regionIds = updatedRegionIds;
+  }
+
+  public hasSelectedRegions(): boolean {
+    return Object.keys(this.selectedRegionIds).length > 0;
   }
 
   public onSubmitRegion() {
@@ -241,6 +229,22 @@ export class FilterComponent implements OnInit {
       areaMax: null,
       bedrooms: null
     });
+  }
+
+  get minPrice() {
+    return this.priceForm.get('minPrice');
+  }
+
+  get maxPrice() {
+    return this.priceForm.get('maxPrice');
+  }
+
+  get minArea() {
+    return this.areaForm.get('minArea');
+  }
+
+  get maxArea() {
+    return this.areaForm.get('maxArea');
   }
 
   private getRegions() {

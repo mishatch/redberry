@@ -25,7 +25,7 @@
                 </div>
               }
             </div>
-            <button class="primary-button" (click)="onSubmitRegion(); regionDropdown.close()">არჩევა</button>
+            <button class="primary-button" (click)="onSubmitRegion(); regionDropdown.close()" [class.is-disabled]="!hasSelectedRegions()">არჩევა</button>
           </div>
         </div>
       </div>
@@ -43,7 +43,7 @@
                   class="form-control"
                   placeholder="დან"
                   formControlName="minPrice"
-                  [class.invalid]="priceForm.hasError('minGreaterThanMax') || priceForm.hasError('bothFieldsRequired')"
+                  [class.invalid]="priceForm.errors"
                 >
                 <span class="gel-icon">
                   ₾
@@ -53,17 +53,13 @@
                   class="form-control"
                   placeholder="მდე"
                   formControlName="maxPrice"
-                  [class.invalid]="priceForm.hasError('minGreaterThanMax') || priceForm.hasError('bothFieldsRequired')"
+                  [class.invalid]="priceForm.errors"
                 >
                 <span class="gel-icon">
                   ₾
                 </span>
               </div>
-              @if (priceForm.hasError('minGreaterThanMax')){
-                <small class="firago-400">
-                  ჩაწერეთ ვალიდური მონაცემები
-                </small>
-              } @else if(priceForm.hasError('bothFieldsRequired')){
+              @if (priceForm.errors){
                 <small class="firago-400">
                   ჩაწერეთ ვალიდური მონაცემები
                 </small>
@@ -113,7 +109,7 @@
                   class="form-control"
                   placeholder="დან"
                   formControlName="minArea"
-                  [class.invalid]="areaForm.hasError('minGreaterThanMax') || areaForm.hasError('bothFieldsRequired')"
+                  [class.invalid]="areaForm.errors"
                 >
                 <span class="area-icon">
                   მ²
@@ -123,17 +119,13 @@
                   class="form-control"
                   placeholder="მდე"
                   formControlName="maxArea"
-                  [class.invalid]="areaForm.hasError('minGreaterThanMax') || areaForm.hasError('bothFieldsRequired')"
+                  [class.invalid]="areaForm.errors"
                 >
                 <span class="area-icon">
                   მ²
                 </span>
               </div>
-              @if (areaForm.hasError('minGreaterThanMax')){
-                <small class="firago-400">
-                  ჩაწერეთ ვალიდური მონაცემები
-                </small>
-              } @else if(areaForm.hasError('bothFieldsRequired')){
+              @if (areaForm.errors){
                 <small class="firago-400">
                   ჩაწერეთ ვალიდური მონაცემები
                 </small>

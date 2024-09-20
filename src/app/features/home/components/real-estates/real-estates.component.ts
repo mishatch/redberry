@@ -18,9 +18,11 @@ import {NumberSeparatorPipe} from "../../../../shared/pipes/number-separator.pip
   styleUrl: './real-estates.component.scss'
 })
 export class RealEstatesComponent implements OnInit, OnDestroy {
+
   public realEstates: Estate[] = [];
   public filteredRealEstates: Estate[] = [];
   public isLoading: boolean = true;
+
   private subscription!: Subscription;
   private filterSubscription!: Subscription;
   private filterCriteria: any;
@@ -45,7 +47,7 @@ export class RealEstatesComponent implements OnInit, OnDestroy {
     }
   }
 
-  viewEstateDetails(estate: Estate) {
+  public viewEstateDetails(estate: Estate) {
     this.router.navigate(['/real-estate', estate.id]);
   }
 

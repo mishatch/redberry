@@ -8,7 +8,13 @@
         <div>
           <div class="form-group">
             <label for="name">სახელი *</label>
-            <input type="text" class="form-control" formControlName="name" id="name">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="name"
+              id="name"
+              [class.invalid]="(name?.touched || name?.dirty) && name?.errors"
+            >
             <small [class.is-valid]="!name?.errors" [class.is-invalid]="(name?.touched || name?.dirty) && name?.errors" >
               <svg width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M11 1.40918L4.125 9.591L1 5.87199" stroke="#021526" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -19,7 +25,13 @@
           </div>
           <div class="form-group">
             <label for="surname">გვარი</label>
-            <input type="text" class="form-control" formControlName="surname" id="surname">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="surname"
+              id="surname"
+              [class.invalid]="(surname?.touched || surname?.dirty) && surname?.errors"
+            >
             <small [class.is-valid]="!surname?.errors" [class.is-invalid]="(surname?.touched || surname?.dirty) && surname?.errors" >
               <svg width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M11 1.40918L4.125 9.591L1 5.87199" stroke="#021526" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -31,7 +43,13 @@
         <div>
           <div class="form-group">
             <label for="email">ელ. ფოსტა *</label>
-            <input type="email" class="form-control" formControlName="email" id="email">
+            <input
+              type="email"
+              class="form-control"
+              formControlName="email"
+              id="email"
+              [class.invalid]="(email?.touched || email?.dirty) && email?.errors"
+            >
             <small [class.is-valid]="!email?.errors" [class.is-invalid]="(email?.touched || email?.dirty) && email?.errors">
               <svg width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M11 1.40918L4.125 9.591L1 5.87199" stroke="#021526" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -42,7 +60,13 @@
           </div>
           <div class="form-group">
             <label for="phone">ტელეფონი</label>
-            <input type="text" class="form-control" formControlName="phone" id="phone">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="phone"
+              id="phone"
+              [class.invalid]="(phone?.touched || phone?.dirty) && phone?.errors"
+            >
             <small [class.is-valid]="!phone?.errors" [class.is-invalid]="(phone?.touched || phone?.dirty) && phone?.errors">
               <svg width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M11 1.40918L4.125 9.591L1 5.87199" stroke="#021526" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
