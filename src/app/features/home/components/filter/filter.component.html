@@ -17,7 +17,7 @@
                     [value]="region.id"
                     [id]="region.name"
                     [(ngModel)]="selectedRegionIds[region.id]"
-                    checked
+
                   >
                   <label class="form-check-label" [for]="region.name">
                     {{ region.name }}
@@ -166,7 +166,7 @@
             საძინებლების რაოდენობა
           </button>
           <div ngbDropdownMenu aria-labelledby="bedrooms" class="bedrooms-dropdown">
-            <h5>საძინებლების რაოდენობა</h5>
+            <h5 class="firago-500">საძინებლების რაოდენობა</h5>
             <input type="number" class="form-control" [(ngModel)]="bedrooms">
             @if ((bedrooms! < 1 && bedrooms !== null)){
               <small class="firago-400 bedroom-alert">

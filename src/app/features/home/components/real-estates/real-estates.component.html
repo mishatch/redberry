@@ -49,6 +49,9 @@
       </div>
     </div>
   }
+  @if (filteredRealEstates.length === 0){
+      <p class="firago-400 no-estate-found">აღნიშნული მონაცემებით განცხადება არ იძებნება</p>
+  }
 </div>
 @if (isLoading){
   <app-loading></app-loading>

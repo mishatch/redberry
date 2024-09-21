@@ -207,6 +207,10 @@
       &.bedrooms-dropdown {
         width: 282px;
         padding: 0;
+        h5 {
+          font-size: 16px;
+          color: $primary-black;
+        }
         input {
           width: 41px;
           height: 41px;
