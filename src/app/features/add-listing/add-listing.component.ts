@@ -69,6 +69,9 @@ export class AddListingComponent implements OnInit {
           this.deleteImage();
           this.clearLocalStorage();
           this.isLoading = false;
+        },
+        (error) => {
+          this.isLoading = false;
         }
       );
     }
